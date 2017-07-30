@@ -1,0 +1,23 @@
+{
+  "name": "mymicds-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile-run": "tsc --outDir build && node build/micds.net.js",
+	"auto-run": "nodemon --exec ts-node",
+	"compile:live": "tsc --outDir build -w",
+	"compile:prod": "rm -rd build; tsc --outDir build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^8.0.17",
+    "discord.js": "^11.1.0",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  }
+}
