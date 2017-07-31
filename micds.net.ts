@@ -35,6 +35,24 @@ client.on('message', (msg : any) => {
 		case "!lunch":
 			site.getLunch().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
+		case "!dates":
+			site.getDates().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
+			break;
+		case "!stats":
+			site.getStats().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
+			break;
+		case "!snowday":
+			site.getSnowdayChance().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
+			break;
+		case "!sports":
+			site.getSportsStats().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
+			break;
+		case "!note":
+			site.getNotification().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
+			break;
+		case "!weather":
+			site.getWeather().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
+			break;
 		case "!help":
 			const embed = new Discord.RichEmbed()
 				.setTitle("MyMICDS BOT Help")
