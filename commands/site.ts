@@ -1,7 +1,6 @@
 var request = require('request');
 
-export class Site {
-	
+export class Site {	
 	constructor() {};
 	
 	testSite() {	
@@ -51,18 +50,40 @@ export class Site {
 		return p;
 	}
 	
-	getDates() {	
-		let out : string = "";
-		
-		const p = new Promise((resolve, reject) => {
-			request('https://mymicds.net/dates/school-ends', function (error : any, response : any, body : any) {
+	getDates() {		
+		const school = new Promise((resolve, reject) => {
+			request.post({url : 'https://api.mymicds.net/dates/school-ends', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
-					out = JSON.parse(body).date;
+					let contents = JSON.parse(body);
+					let dateConvert = new Date(contents.date);
+					resolve(dateConvert.toDateString());
 				}
 				else {
 					reject("Error");
 				}
 			});
+		});
+		
+		const nextbreak = new Promise((resolve, reject) => {
+			request.post({url : 'https://api.mymicds.net/dates/breaks', form: {}}, function (error : any, response : any, body : any) {
+				if (!error) {
+					let contents = JSON.parse(body);
+					resolve(contents.breaks.longWeekends[0]);
+				}
+				else {
+					reject("Error");
+				}
+			});
+		});
+			
+		const p = new Promise((resolve, reject) => {
+			/*if (out.school == "" || out.nextbreak == "") {
+				reject("There was a problem with that reguest");
+			}
+			else {
+				
+			}*/
+			resolve("Not implemented yet");
 		});
 		
 		return p;
@@ -70,33 +91,37 @@ export class Site {
 	
 	getStats() {	
 		const p = new Promise((resolve, reject) => {
-			request('https://mymicds.net/stats/get', function (error : any, response : any, body : any) {
+			request.post({url : 'https://api.mymicds.net/stats/get', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
-					resolve(body);
+					let contents = JSON.parse(body);
+					resolve(`Currently Registered : ${contents.stats.registered.total}`);
 				}
 				else {
-					reject("Error");
+					reject("Quotes API Failure");
 				}
 			});
 		});
 		
 		return p;
-	}
+	} // working
 	
 	getSnowdayChance() {	
 		const p = new Promise((resolve, reject) => {
-			request('https://mymicds.net/snowday/calculate', function (error : any, response : any, body : any) {
+			request.post({url : 'https://api.mymicds.net/snowday/calculate', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
-					resolve(body);
+					let contents = JSON.parse(body);
+					let date = new Date();
+					let expectedFormatDate : string = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
+					console.log(date.toDateString());
 				}
 				else {
-					reject("Error");
+					reject("Quotes API Failure");
 				}
 			});
 		});
 		
 		return p;
-	}
+	} // not up
 	
 	getSportsStats() {	
 		const p = new Promise((resolve, reject) => {
@@ -111,13 +136,13 @@ export class Site {
 		});
 		
 		return p;
-	}
+	} // not up yet
 	
 	getNotification() {
 		const p = new Promise((resolve, reject) => {
 			request('https://mymicds.net/notification/get', function (error : any, response : any, body : any) {
 				if (!error) {
-					resolve(body);
+					resolve("Notification API is not in session");
 				}
 				else {
 					reject("Error");
@@ -130,12 +155,13 @@ export class Site {
 	
 	getWeather() {	
 		const p = new Promise((resolve, reject) => {
-			request('https://mymicds.net', function (error : any, response : any, body : any) {
+			request.post({url : 'https://api.mymicds.net/weather/get', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
-					resolve(body);
+					let contents = JSON.parse(body);
+					resolve(`${contents.weather.currently.summary} @ ${contents.weather.currently.temperature}`);
 				}
 				else {
-					reject("Erro");
+					reject("Quotes API Failure");
 				}
 			});
 		});
