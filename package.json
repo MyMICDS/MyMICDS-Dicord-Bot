@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile-run": "tsc --outDir build && node build/micds.net.js",
-	"auto-run": "nodemon --exec ts-node",
-	"compile:live": "tsc --outDir build -w",
-	"compile:prod": "rm -rd build; tsc --outDir build"
+    "auto-run": "run-when-changed --watch * --exec 'npm run compile-run'",
+    "compile:live": "tsc --outDir build -w",
+    "compile:prod": "rm -rd build; tsc --outDir build"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "discord.js": "^11.1.0",
     "nodemon": "^1.11.0",
     "request": "^2.81.0",
+    "run-when-changed": "^2.0.3",
     "ts-node": "^3.3.0",
     "typescript": "^2.4.2"
   }

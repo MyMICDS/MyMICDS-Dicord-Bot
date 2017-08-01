@@ -7,16 +7,16 @@ export class Site {
 		const p = new Promise((resolve, reject) => {
 			request('https://mymicds.net', function (error : any, response : any, body : any) {
 				if (!error) {
-					resolve("MyMicds.net is online");
+					resolve("MyMICDS.net is online");
 				}
 				else {
-					reject("MyMicds.net is offline");
+					reject("MyMICDS.net is offline");
 				}
 			});
 		});
 		
 		return p;
-	}
+	} // working
 	
 	getQuote() {
 		const p = new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ export class Site {
 		});
 		
 		return p;
-	}
+	} // working
 	
 	getLunch() {	
 		const p = new Promise((resolve, reject) => {
@@ -42,52 +42,31 @@ export class Site {
 					resolve("Lunch API is not in session right now");
 				}
 				else {
-					reject("MyMicds.net is offline");
+					reject("Lunch API Failure");
 				}
 			});
 		});
 		
 		return p;
-	}
+	} // not in session
 	
 	getDates() {		
-		const school = new Promise((resolve, reject) => {
-			request.post({url : 'https://api.mymicds.net/dates/school-ends', form: {}}, function (error : any, response : any, body : any) {
-				if (!error) {
-					let contents = JSON.parse(body);
-					let dateConvert = new Date(contents.date);
-					resolve(dateConvert.toDateString());
-				}
-				else {
-					reject("Error");
-				}
-			});
-		});
-		
 		const nextbreak = new Promise((resolve, reject) => {
 			request.post({url : 'https://api.mymicds.net/dates/breaks', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
-					let contents = JSON.parse(body);
-					resolve(contents.breaks.longWeekends[0]);
+					let startDate = JSON.parse(body).breaks.longWeekends[0].start;
+					let readableDate = new Date(startDate);
+					
+					resolve(readableDate.toDateString());
 				}
 				else {
 					reject("Error");
 				}
 			});
 		});
-			
-		const p = new Promise((resolve, reject) => {
-			/*if (out.school == "" || out.nextbreak == "") {
-				reject("There was a problem with that reguest");
-			}
-			else {
-				
-			}*/
-			resolve("Not implemented yet");
-		});
 		
-		return p;
-	}
+		return nextbreak;
+	} // working
 	
 	getStats() {	
 		const p = new Promise((resolve, reject) => {
@@ -97,7 +76,7 @@ export class Site {
 					resolve(`Currently Registered : ${contents.stats.registered.total}`);
 				}
 				else {
-					reject("Quotes API Failure");
+					reject("Stats API Failure");
 				}
 			});
 		});
@@ -110,12 +89,12 @@ export class Site {
 			request.post({url : 'https://api.mymicds.net/snowday/calculate', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
 					let contents = JSON.parse(body);
-					let date = new Date();
-					let expectedFormatDate : string = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
-					console.log(date.toDateString());
+					/*let date = new Date();
+					let expectedFormatDate : string = `${date.getFullYear()}-${date.getMonth()}-${date.getDay() + 1}`*/
+					resolve(contents.data);
 				}
 				else {
-					reject("Quotes API Failure");
+					reject("Snowday API Failure");
 				}
 			});
 		});
@@ -127,7 +106,7 @@ export class Site {
 		const p = new Promise((resolve, reject) => {
 			request('https://mymicds.net/sports/scores', function (error : any, response : any, body : any) {
 				if (!error) {
-					resolve(body);
+					resolve("Sports API not in session");
 				}
 				else {
 					reject("Error");
@@ -151,7 +130,7 @@ export class Site {
 		});
 		
 		return p;
-	}
+	} // not in session
 	
 	getWeather() {	
 		const p = new Promise((resolve, reject) => {
@@ -161,11 +140,11 @@ export class Site {
 					resolve(`${contents.weather.currently.summary} @ ${contents.weather.currently.temperature}`);
 				}
 				else {
-					reject("Quotes API Failure");
+					reject("Weather API Failure");
 				}
 			});
 		});
 		
 		return p;
-	}
+	} // working
 }
