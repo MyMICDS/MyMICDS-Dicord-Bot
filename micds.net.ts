@@ -81,9 +81,9 @@ client.on('message', (msg : any) => {
 				
 				.addField("!stats", "Gets the amount of people registered with the site")
 				
-				.addField("!spots", "Gets the sports scores")
+				.addField("!sports", "Gets the sports scores")
 				
-				.addField("!note", "Gets the curent notification")
+				// .addField("!note", "Gets the curent notification")
 				
 				.addField("!weather", "Gets the current weather at MICDS")
 				/*

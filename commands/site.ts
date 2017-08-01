@@ -88,10 +88,9 @@ export class Site {
 		const p = new Promise((resolve, reject) => {
 			request.post({url : 'https://api.mymicds.net/snowday/calculate', form: {}}, function (error : any, response : any, body : any) {
 				if (!error) {
-					let contents = JSON.parse(body);
+					let dates = Object.keys(JSON.parse(body).data);
 					/*let date = new Date();
 					let expectedFormatDate : string = `${date.getFullYear()}-${date.getMonth()}-${date.getDay() + 1}`*/
-					resolve(contents.data);
 				}
 				else {
 					reject("Snowday API Failure");
