@@ -13,11 +13,28 @@ catch (Exception) {
 
 import { PingCommand } from './commands/ping';
 import { Site } from './commands/site';
+import { Channel } from './commands/channel';
+import { Toggler } from './lib/toggler';
 
 let site = new Site();
+let channel = new Channel();
+
+let typeAnnoy = false;
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on('typingStart', (channel : any, user : any) => {
+	if (typeAnnoy) {
+		user.sendMessage("Typing Annoyer");
+	}
+});
+
+client.on('typingStop', (channel : any, user : any) => {
+	if (typeAnnoy) {
+		user.send("Typing Annoyer");
+	}
 });
 
 client.on('message', (msg : any) => {
@@ -53,6 +70,13 @@ client.on('message', (msg : any) => {
 		case "!weather":
 			site.getWeather().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
+		case "!channel":
+			channel.formatChannelString(client.ping, client.status).then((result : any) => { msg.reply(result.toString()) }).catch((reject : any) => { msg.reply(reject.toString()) });
+			break;
+		case "!annoy":
+			typeAnnoy = Toggler.toggleBoolean(typeAnnoy);
+			msg.reply(`TypeAnnoy: ${typeAnnoy}`);			
+			break;
 		case "!help":
 			const embed = new Discord.RichEmbed()
 				.setTitle("Commands Help")
@@ -69,7 +93,7 @@ client.on('message', (msg : any) => {
 				.setTimestamp()
 				//.setURL("https://discord.js.org/#/docs/main/indev/class/RichEmbed")
 				.addField("Help",
-				"!help coming soon")
+				"!help display help")
 				
 				.addField("!checksite", "Checks to see if the MyMICDS.net site is online")
 				
@@ -82,6 +106,8 @@ client.on('message', (msg : any) => {
 				.addField("!stats", "Gets the amount of people registered with the site")
 				
 				.addField("!sports", "Gets the sports scores")
+				
+				.addField("!channel", "Get stats on the channel")
 				
 				// .addField("!note", "Gets the curent notification")
 				
