@@ -39,45 +39,45 @@ client.on('typingStop', (channel : any, user : any) => {
 
 client.on('message', (msg : any) => {
 	switch (msg.content) {
-		case "!ping":
+		case "/ping":
 			let ping = new PingCommand();
 			msg.reply(ping.ping());
 			break;
-		case "!checksite":
+		case "/checksite":
 			site.testSite().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!quote":
+		case "/quote":
 			site.getQuote().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!lunch":
+		case "/lunch":
 			site.getLunch().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!break":
+		case "/break":
 			site.getDates().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!stats":
+		case "/stats":
 			site.getStats().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!snowday":
+		case "/snowday":
 			site.getSnowdayChance().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!sports":
+		case "/sports":
 			site.getSportsStats().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!note":
+		case "/note":
 			site.getNotification().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!weather":
+		case "/weather":
 			site.getWeather().then(((res : any) => { msg.reply(res.toString()) })).catch((err : any) => { msg.reply(err.toString()) });
 			break;
-		case "!channel":
+		case "/channel":
 			channel.formatChannelString(client.ping, client.status).then((result : any) => { msg.reply(result.toString()) }).catch((reject : any) => { msg.reply(reject.toString()) });
 			break;
-		case "!annoy":
+		case "/annoy":
 			typeAnnoy = Toggler.toggleBoolean(typeAnnoy);
-			msg.reply(`TypeAnnoy: ${typeAnnoy}`);			
+			msg.reply(`TypeAnnoy: ${typeAnnoy}`);
 			break;
-		case "!help":
+		case "/help":
 			const embed = new Discord.RichEmbed()
 				.setTitle("Commands Help")
 				.setAuthor("MyMICDS BOT", "https://mymicds.net/assets/logo/logo.svg")
@@ -94,23 +94,23 @@ client.on('message', (msg : any) => {
 				//.setURL("https://discord.js.org/#/docs/main/indev/class/RichEmbed")
 				.addField("Help",
 				"!help display help")
-				
+
 				.addField("!checksite", "Checks to see if the MyMICDS.net site is online")
-				
+
 				.addField("!quote", "Gets a random quote from our database")
-				
+
 				.addField("!lunch", "Gets the lunch for today")
-				
+
 				.addField("!break", "Gets the next long weekend")
-				
+
 				.addField("!stats", "Gets the amount of people registered with the site")
-				
+
 				.addField("!sports", "Gets the sports scores")
-				
+
 				.addField("!channel", "Get stats on the channel")
-				
+
 				// .addField("!note", "Gets the curent notification")
-				
+
 				.addField("!weather", "Gets the current weather at MICDS")
 				/*
 				* Inline fields may not display as inline if the thumbnail and/or image is too big.
