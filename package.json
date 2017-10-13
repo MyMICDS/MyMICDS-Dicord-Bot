@@ -8,7 +8,9 @@
     "compile-run": "tsc --outDir build && node build/micds.net.js",
     "auto-run": "run-when-changed --watch * --exec 'npm run compile-run'",
     "compile:live": "tsc --outDir build -w",
-    "compile:prod": "rm -rd build; tsc --outDir build"
+    "compile:prod": "rm -rd build; tsc --outDir build",
+    "deploy":"pm2 start build/micds.net.js --name mymicds-bot",
+    "redeploy":"pm2 delte mymicds-bot; pm2 start build/micds.net.js --name mymicds-bot"
   },
   "author": "",
   "license": "ISC",
