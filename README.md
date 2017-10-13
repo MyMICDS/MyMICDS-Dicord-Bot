@@ -1,4 +1,4 @@
-# MyMICDS-Dicord-Bot
+# MyMICDS-Discord-Bot
 This is the official bot for MyMICDS
 
 # Running
